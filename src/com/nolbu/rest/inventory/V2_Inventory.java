@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response;
 import org.codehaus.jettison.json.JSONArray;
 
 import com.nolbu.dao.OracleNolbu;
+import com.nolbu.dao.SchemaNolbu;
 import com.nolbu.util.ToJSON;
 
 @Path("v2/inventory")
@@ -28,7 +29,14 @@ public class V2_Inventory {
 		
 		
 		try{
-
+		    if(brand == null){
+				return Response.status(400).entity("Error:please enter brand name").build();
+		    	  }
+		    
+		    SchemaNolbu dao = new SchemaNolbu();
+		    
+		    json = dao.queryReturnBrandParts(brand);
+		    returnString = json.toString();
 		    
 		} catch(Exception e){
 			e.printStackTrace();
