@@ -74,4 +74,39 @@ public class SchemaNolbu extends OracleNolbu {
 	  	
 	  	return json;
            }
+    
+    public int insertIntoPC_PARTS(String PC_PARTS_PK,
+	    										String PC_PARTS_TITLE,
+	    										String PC_PARTS_CODE,
+	    										String PC_PARTS_MAKER,
+	    										String PC_PARTS_AVAIL,
+	    										String PC_PARTS_DESC) throws Exception{
+		PreparedStatement query = null;
+		Connection conn = null;
+		
+		try{
+		    conn = oraclePcPartsConnection();
+		    query = conn.prepareStatement("Insert into PC_PARTS "+
+			    									 " (PC_PARTS_PK,PC_PARTS_TITLE, PC_PARTS_CODE, PC_PARTS_MAKER, PC_PARTS_AVAIL, PC_PARTS_DESC) "+
+			    								    " VALUES(?,?,?,?,?,?)");
+		    int pkint = Integer.parseInt(PC_PARTS_PK);
+	    	 query.setInt(1, pkint);
+	    	 query.setString(2, PC_PARTS_TITLE);
+    	 	 query.setString(3, PC_PARTS_CODE);
+    	 	 query.setString(4, PC_PARTS_MAKER);
+    	 	 
+    	 	 int avilint = Integer.parseInt(PC_PARTS_AVAIL);
+    	 	 query.setInt(5, avilint);
+    	 	 query.setString(6, PC_PARTS_DESC);
+    	 	 
+    	 	 query.executeUpdate();
+		} catch(Exception e){
+		    e.printStackTrace();
+		    return 500;
+		}finally {
+		    if(conn != null) conn.close();
+		}
+		
+		return 200;
+    }
 }
