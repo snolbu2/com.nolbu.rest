@@ -109,4 +109,48 @@ public class SchemaNolbu extends OracleNolbu {
 		
 		return 200;
     }
+    
+ public int updatePC_PARTS(int pk, int avail) throws Exception{
+	 PreparedStatement query = null;
+	 Connection conn = null;
+	 
+	 try{
+		 conn = oraclePcPartsConnection();
+		 query = conn.prepareStatement("UPDATE PC_PARTS " + 
+				 																		" SET PC_PARTS_AVAIL = ? WHERE PC_PARTS_PK = ?");
+		 query.setInt(1, avail);
+		 query.setInt(2, pk);
+		 query.executeUpdate();
+		 
+	 } catch(Exception e){
+		 e.printStackTrace();
+		 return 500;
+	 } finally{
+		 if(conn != null) conn.close();
+	   }
+
+	 return 200;
+   }
+
+ public int deletePC_PARTS(int pk) throws Exception{
+	 PreparedStatement query = null;
+	 Connection conn = null;
+	 
+	 try{
+		 conn = oraclePcPartsConnection();
+		 query = conn.prepareStatement("DELETE FROM PC_PARTS " + 
+				 																		" WHERE PC_PARTS_PK = ?");
+		 query.setInt(1, pk);
+		 query.executeUpdate();
+		 
+	 } catch(Exception e){
+		 e.printStackTrace();
+		 return 500;
+	 } finally{
+		 if(conn != null) conn.close();
+	   }
+
+	 return 200;
+   }
+
 }
